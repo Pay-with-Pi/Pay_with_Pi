@@ -1,0 +1,73 @@
+
+   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <script> Pi.init({ version: "2.0", sandbox: true }) </script>
+Next, authenticate the user. Add this in the <head> of your page:
+<script> 
+        // Authenticate the user, and get permission to request payments from them
+        const scopes = ['payments','username'];
+
+        // Read more about this callback in the SDK reference:
+        function onIncompletePaymentFound(payment) { 
+            console.log('incomplete payment found')
+            paymentId = payment.identifier
+            txid = payment.transaction.txid
+            $.post('/payment/complete',
+                    {
+                        paymentId: paymentId,
+                        txid: txid,
+                        debug: 'cancel'
+                    }
+                )
+        };
+        Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth) {
+          console.log(`Hi there! You're ready to make payments!`)
+          const accessToken = auth.accessToken
+        }).catch(function(error) {
+          console.error(error);
+        });
+    </script>
+In this code, onIncompletePaymentFound handles any pending payments from this authenticated user. You can select how you handle the payment: Cancel: Cancel, complete, or something else. Keep reading.
+Step 6: Handling Payments
+Finally - it’s time to handle payments! Payments have four steps. This section has everything you need, but understanding each step can help as you build more complex applications. To learn about each step, click here.
+Create Payment:
+Use the createPayment function in the Pi SDK. This function takes two arguments: a paymentData object (which includes the amount to be paid, a memo for users, and metadata for your own usage) and an object of callback functions.
+const paymentData = {
+    amount: number,  /* Pi Amount being Transacted */
+    memo: string, /* "Any information that you want to add to payment" */
+    metadata: object {}, /* { Special Information: 1234, ... } */
+};
+
+// Callbacks the developer needs to implement:
+const paymentCallbacks = {
+    onReadyForServerApproval,
+    onReadyForServerCompletion,
+    onCancel,
+    onError
+    };
+
+Pi.createPayment(paymentData, paymentCallbacks).then(function(payment) {
+    console.log(payment)
+  }).catch(function(error) {
+    console.error(error);
+  });
+Server-Side Approval:
+The onReadyForServerApproval function gets called when the payment id is ready. Your app needs to pass the payment id and other relevant data to your app backend. The payment id should then be shared with the Pi API endpoint /payments/approve’ to signal that the app is ready to proceed with the payment.
+const onReadyForServerApproval = (paymentId) => {
+    console.log("onReadyForServerApproval", paymentId);
+    axiosClient.post('/payments/approve', {paymentId}, config);
+  }
+User Interaction and Blockchain Transaction:
+The Pi browser shows the payment detail page to a user, and we are waiting until the user signs the transaction.
+Server-Side Completion:
+The onReadyForServerCompletion function gets called after the blockchain transaction has been submitted to the Pi blockchain. Your job is again to pass any relevant data to your app server. On your server, you can verify the payment and deliver the item that was reserved for the user. In the end, you should complete the payment by letting the Pi server know that you have received the payment and delivered the item.
+ const onReadyForServerCompletion = (paymentId, txid) => {
+    console.log("onReadyForServerCompletion", paymentId, txid);
+    axiosClient.post('/payments/complete', {paymentId, txid}, config);
+  }
+Please note that the actual implementation of these steps will depend on your specific app and server setup. Also, remember to handle any errors or cancellations that may occur during the payment process.
+Additional Resources
+Want to get more context on what your code could look like or what it could achieve. Head over to our Demo Apps and Blog to see other references including code examples.
+
+Back to top
+Pi Network 2022
+Edit this page on GitHub
