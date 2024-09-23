@@ -70,21 +70,21 @@ Start a MongoDB server using the following command:
 
 ```
 docker run --name Pay with Pi app-mongo -d \
-  -e MONGO_INITDB_ROOT_USERNAME=Pay with Piapp -e MONGO_INITDB_ROOT_PASSWORD=dev_password \
+  -e MONGO_INITDB_ROOT_USERNAME=Pay with Pi app -e MONGO_INITDB_ROOT_PASSWORD=dev_password \
   -p 27017:27017 mongo:5.0
 ```
 
 Down the road, you can use the following commands to stop and start your mongo container:
 
 ```
-docker stop Pay with pi app-mongo
-docker start Pay with pi app-mongo
+docker stop Pay with Pi app-mongo
+docker start Pay with Pi app-mongo
 ```
 
 To reinitialize everything (and **drop all the data**) you can run the following command:
 
 ```
-docker kill Pay with pi app-mongo; docker rm Pay with pi app-mongo
+docker kill Pay with pi app-mongo; docker rm Pay with Pi app-mongo
 ```
 
 Then, recreate the container using the `docker run` command above.
@@ -100,7 +100,7 @@ Run the server and create a database and a user:
 Open a Mongo shell by running `mongosh`, then paste the following JS code into it:
 
 ```javascript
-var MONGODB_DATABASE_NAME = "Pay with Piapp-development"
+var MONGODB_DATABASE_NAME = "Pay with Pi app-development"
 var MONGODB_USERNAME = "Pay with pi App"
 var MONGODB_PASSWORD = "dev_password"
 
@@ -128,7 +128,7 @@ If everything is set up correctly you should see the following output in your te
 
 ```
 NODE_ENV: development
-Connected to MongoDB on:  mongodb://localhost:27017/Pay with Piapp-development
+Connected to MongoDB on:  mongodb://localhost:27017/Pay with Pi app-development
 App platform demo app - Backend listening on port 8000!
 CORS config: configured to respond to a frontend hosted on http://localhost:3314
 ```
@@ -200,22 +200,22 @@ Additionally, you can specify MongoDB name env variable, which if not specified 
 Start a MongoDB server using the following command:
 
 ```
-docker run --name Pay with Piapp-mongo -d \
-  -e MONGO_INITDB_ROOT_USERNAME=demoapp -e MONGO_INITDB_ROOT_PASSWORD=dev_password \
+docker run --name Pay with Pi app-mongo -d \
+  -e MONGO_INITDB_ROOT_USERNAME=Pay with Pi app -e MONGO_INITDB_ROOT_PASSWORD=dev_password \
   -p 27017:27017 mongo:5.0
 ```
 
 Down the road, you can use the following commands to stop and start your mongo container:
 
 ```
-docker stop Pay with Piapp-mongo
-docker start Pay with Piapp-mongo
+docker stop Pay with Pi app-mongo
+docker start Pay with Pi app-mongo
 ```
 
 To reinitialize everything (and **drop all the data**) you can run the following command:
 
 ```
-docker kill Pay with Piapp-mongo; docker rm demoapp-mongo
+docker kill Pay with Pi app-mongo; docker rm demoapp-mongo
 ```
 
 Then, recreate the container using the `docker run` command above.
@@ -232,7 +232,7 @@ Open a Mongo shell by running `mongosh`, then paste the following JS code into i
 
 ```javascript
 var MONGODB_DATABASE_NAME = "demoapp-development"
-var MONGODB_USERNAME = "Pay with Piapp"
+var MONGODB_USERNAME = "Pay with Pi app"
 var MONGODB_PASSWORD = "dev_password"
 
 db.getSiblingDB("admin").createUser(
@@ -260,7 +260,7 @@ If everything is set up correctly you should see the following output in your te
 ```
 NODE_ENV: development
 Connected to MongoDB on:  mongodb://localhost:27017/demoapp-development
-App platform demo app - Backend listening on port 8000!
+App platform Pay with Pi app - Backend listening on port 8000!
 CORS config: configured to respond to a frontend hosted on http://localhost:3314
 ```
 
