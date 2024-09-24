@@ -51,10 +51,10 @@ Then, copy-paste those values in the following two keys of your .env file:
 
 ```
 # Add your API key here:
-Pay with Pi_API_KEY=
+Pay with Pi_API_KEY= Https://paywithpi.com/validation
 
 # Add your session secret here:
-SESSION_SECRET=
+SESSION_SECRET=wgzuxn4pdezkqgu2bihwortnynjbearrtbqnnkjm9ofxfjk14ksoyoc78e1fkgtu
 ```
 
 
@@ -185,7 +185,7 @@ Then, copy-paste those values in the following two keys of your .env file:
 PI_API_KEY=
 
 # Add your session secret here:
-SESSION_SECRET=
+SESSION_SECRET=msie0otdabxmv3srsuijnf7h5xy5ojinbrtuffq1dpkhxtvepcqolfs3e4c4kme8
 ```
 
 
@@ -259,7 +259,7 @@ If everything is set up correctly you should see the following output in your te
 
 ```
 NODE_ENV: development
-Connected to MongoDB on:  mongodb://localhost:27017/demoapp-development
+Connected to MongoDB on:  mongodb://localhost:27017/pay with piapp-development
 App platform Pay with Pi app - Backend listening on port 8000!
 CORS config: configured to respond to a frontend hosted on http://localhost:3314
 ```
