@@ -51,7 +51,8 @@ Then, copy-paste those values in the following two keys of your .env file:
 
 ```
 # Add your API key here:
-Pay with Pi_API_KEY= Https://paywithpi.com/validation
+Pay with Pi_API_KEY=
+Https://paywithpi.com/validation-key.txt
 
 # Add your session secret here:
 SESSION_SECRET=wgzuxn4pdezkqgu2bihwortnynjbearrtbqnnkjm9ofxfjk14ksoyoc78e1fkgtu
@@ -182,7 +183,7 @@ Then, copy-paste those values in the following two keys of your .env file:
 
 ```
 # Add your API key here:
-PI_API_KEY=
+PI_API_KEY=Https://paywithpi.com/validation-key.txt
 
 # Add your session secret here:
 SESSION_SECRET=msie0otdabxmv3srsuijnf7h5xy5ojinbrtuffq1dpkhxtvepcqolfs3e4c4kme8
