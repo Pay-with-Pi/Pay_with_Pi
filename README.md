@@ -1,86 +1,26 @@
-# frozen_string_literal: true
+Pay with Pi leading payment app
+Use Pay with pi for the fastest, most secure online and in-store payments! Pay for movie tickets, food, coffee, fashion, gas, and many more in Pay with Pi.
 
-module JekyllImport
-  module Importers
-    class Ghost < Importer
-      def self.specify_options(c)
-        c.option "dbfile", "--dbfile", "Database file (default: ghost.db)"
-      end
+Quick, easy, convenient and secure.
 
-      def self.require_deps
-        JekyllImport.require_with_fallback(%w(
-          rubygems
-          sequel
-          sqlite3
-          fileutils
-          safe_yaml
-        ))
-      end
+**Send / Receive Payments**
 
-      def self.process(options)
-        posts = fetch_posts(options.fetch("dbfile", "ghost.db"))
-        unless posts.empty?
-          FileUtils.mkdir_p("_posts")
-          FileUtils.mkdir_p("_drafts")
-          posts.each do |post|
-            write_post_to_file(post)
-          end
-        end
-      end
+Pay in store or send money to friends. No need to carry cash or worry about loose change!
 
-      class << self
-        private
+**Online Top-Ups and Utility Bill Payments**
 
-        def fetch_posts(dbfile)
-          db = Sequel.sqlite(dbfile)
-          query = "SELECT `title`, `slug`, `markdown`, `created_at`, `published_at`, `status`, `page` FROM posts"
-          db[query]
-        end
+Top-up your mobile phone, pay your utility and internet bills or settle your monthly insurance premiums bills through Pay with Pi.
 
-        def write_post_to_file(post)
-          # detect if the post is a draft
-          draft = post[:status].eql?("draft")
+**Add Money to your Pay with Pi Wallet**
 
-          # detect if the post is considered a static page
-          page = post[:page]
+Add money to your Pay with pi app via Pay&Go machines or transfer from multiple online banking apps cash-in at all Banks branches and agent world wide.
 
-          # the publish date if the post has been published, creation date otherwise
-          # The database stores timestamps in milliseconds, so we need to divide by 1000
-          # to get time in seconds.
-          date = Time.at(post[draft ? :created_at : :published_at].to_i / 1000)
+**Explore Nearby**
 
-          if page
-            # the filename under which the page is stored
-            filename = "#{post[:slug]}.markdown"
-          else
-            # the directory where the file will be saved to. either _drafts or _posts
-            directory = draft ? "_drafts" : "_posts"
+Explore places near you that accept payment through Pay with pi wallet. Cinemas, restaurants, coffee shops, supermarkets, and gas stations are all joining forces with Pay with Pi to make your life more connected and more mobile.
 
-            # the filename under which the post is stored
-            filename = File.join(directory, "#{date.strftime("%Y-%m-%d")}-#{post[:slug]}.markdown")
-          end
+Don’t forget to look out for great deals exclusively for Pay with pi users! Start enjoying the amazing benefits of Pay with Pi. Download it now.
 
-          # the YAML FrontMatter
-          frontmatter = {
-            "layout" => page ? "page" : "post",
-            "title"  => post[:title],
-          }
-          frontmatter["date"] = date if !page && !draft # only add the date to the frontmatter when the post is published
-          frontmatter["published"] = false if page && draft # set published to false for draft pages
-          frontmatter.delete_if { |_k, v| v.nil? || v == "" } # removes empty fields
 
-          # write the posts to disk
-          write_file(filename, frontmatter.to_yaml, post[:markdown])
-        end
 
-        def write_file(filename, frontmatter, content)
-          File.open(filename, "w") do |f|
-            f.puts frontmatter
-            f.puts "---"
-            f.puts content
-          end
-        end
-      end
-    end
-  end
-end
+[![CI](https://github.com/Juma-creator/PaywithPi/actions/workflows/blank.yml/badge.svg)](https://github.com/Juma-creator/PaywithPi/actions/workflows/blank.yml)
