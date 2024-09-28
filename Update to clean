@@ -1,0 +1,194 @@
+# Fetch the latest state from the remote repository
+git fetch origin
+
+# Checkout the branch you want to reset (e.g., master)
+git checkout master
+
+# Perform a hard reset to match the remote repository
+git reset --hard origin/master
+
+# Clean untracked files and directories
+git clean -d --force
+
+git pull origin master
+
+$ git --version --build-options
+
+** git version 2.46.2.windows.1
+cpu: x86_64
+built from commit: 1e20af0e809e08cca5714727dfa0fb50c0c4664d
+sizeof-long: 4
+sizeof-size_t: 8
+shell-path: D:/git-sdk-64-build-installers/usr/bin/sh
+feature: fsmonitor--daemon
+libcurl: 8.10.1
+OpenSSL: OpenSSL 3.2.3 3 Sep 2024
+zlib: 1.3.1
+ **
+$ cmd.exe /c ver
+
+** git version 2.46.2.windows.1
+cpu: x86_64
+built from commit: 1e20af0e809e08cca5714727dfa0fb50c0c4664d
+sizeof-long: 4
+sizeof-size_t: 8
+shell-path: D:/git-sdk-64-build-installers/usr/bin/sh
+feature: fsmonitor--daemon
+libcurl: 8.10.1
+OpenSSL: OpenSSL 3.2.3 3 Sep 2024
+zlib: 1.3.1
+ **
+# One of the following:
+> type "C:\Program Files\Git\etc\install-options.txt"
+> type "C:\Program Files (x86)\Git\etc\install-options.txt"
+> type "%USERPROFILE%\AppData\Local\Programs\Git\etc\install-options.txt"
+> type "$env:USERPROFILE\AppData\Local\Programs\Git\etc\install-options.txt"
+$ cat /etc/install-options.txt
+
+** Editor Option: VIM
+Custom Editor Path: 
+Default Branch Option:  
+Path Option: Cmd
+SSH Option: OpenSSH
+Tortoise Option: false
+CURL Option: OpenSSL
+CRLF Option: CRLFAlways
+Bash Terminal Option: MinTTY
+Git Pull Behavior Option: Merge
+Use Credential Manager: Enabled
+Performance Tweaks FSCache: Enabled
+Enable Symlinks: Disabled
+Enable Pseudo Console Support: Disabled
+Enable FSMonitor: Disabled
+ **
+** Not commands. It's from UI. Just go to some folder in any drive and right click -> "Git bash here". And then this error shows. **
+    if IsComponentSelected('ext\shellhere') then begin
+        Msg:='Open Git Ba&sh here';
+        Cmd:='"'+AppDir+'\git-bash.exe" "--cd=%1"';
+        Ico:=AppDir+'\git-bash.exe';
+        if (not RegWriteStringValue(RootKey,'SOFTWARE\Classes\Directory\shell\git_shell','',Msg)) or
+           (not RegWriteStringValue(RootKey,'SOFTWARE\Classes\Directory\shell\git_shell\command','',Cmd)) or
+           (not RegWriteStringValue(RootKey,'SOFTWARE\Classes\Directory\shell\git_shell','Icon',Ico)) or
+           (StringChangeEx(Cmd,'%1','%v.',false)<>1) or
+           (not RegWriteStringValue(RootKey,'SOFTWARE\Classes\Directory\Background\shell\git_shell','',Msg)) or
+           (not RegWriteStringValue(RootKey,'SOFTWARE\Classes\Directory\Background\shell\git_shell\command','',Cmd)) or
+           (not RegWriteStringValue(RootKey,'SOFTWARE\Classes\Directory\Background\shell\git_shell','Icon',Ico)) or
+           (not RegWriteStringValue(RootKey,'SOFTWARE\Classes\LibraryFolder\background\shell\git_shell','',Msg)) or
+           (not RegWriteStringValue(RootKey,'SOFTWARE\Classes\LibraryFolder\background\shell\git_shell\command','',Cmd)) or
+           (not RegWriteStringValue(RootKey,'SOFTWARE\Classes\LibraryFolder\background\shell\git_shell','Icon',Ico)) then
+            LogError('Line {#__LINE__}: Unable to create "Git Bash Here" shell extension.');
+    end;
+diff --git a/git-extra/git-update-git-for-windows b/git-extra/git-update-git-for-windows
+index 7121dd7be..50ff5524a 100755
+--- a/git-extra/git-update-git-for-windows
++++ b/git-extra/git-update-git-for-windows
+@@ -174,7 +174,22 @@ update_git_for_windows () {
+ 		;;
+ 	esac
+ 
+-	latest_tag_url=https://gitforwindows.org/latest-tag.txt
++	if test -f "$0.ini"
++	then
++		fork="$(git config -f "$0.ini" update.fromFork)"
++		test -n "$releases_url" || {
++			echo "Could not find update.fromFork in $0.ini" >&2
++			return 1
++		}
++		releases_url=https://api.github.com/repos/$fork/releases
++		latest_tag_url=$releases_url/latest
++		latest_eval='latest=${latest_tag#*\"tag_name\": \"}; latest=${latest%%\"*}'
++	else
++		releases_url=https://api.github.com/repos/git-for-windows/git/releases
++		latest_tag_url=https://gitforwindows.org/latest-tag.txt
++		latest_eval='latest=${latest_tag#v}'
++	fi
++
+ 	latest_tag=$(http_get $latest_tag_url) ||
+ 	case $?,"$proxy" in
+ 	7,)
+@@ -190,7 +205,7 @@ update_git_for_windows () {
+ 		;;
+ 	esac
+ 
+-	latest=${latest_tag#v}
++	eval "$latest_eval"
+ 	# Did we ask about this version already?
+ 	recently_seen="$(get_recently_seen)"
+ 	test -n "$quiet" && test "x$recently_seen" = "x$latest" && return
+@@ -215,7 +230,6 @@ update_git_for_windows () {
+ 	esac
+ 
+ 	echo "Update $latest is available" >&2
+-	releases_url=https://api.github.com/repos/git-for-windows/git/releases
+ 	releases=$(http_get $releases_url/latest) || return
+ 	download=$(echo "$releases" |
+ 		grep '"browser_download_url": "' |
+diff --git a/git-extra/git-update-git-for-windows b/git-extra/git-update-git-for-windows
+index 7121dd7be..50ff5524a 100755
+--- a/git-extra/git-update-git-for-windows
++++ b/git-extra/git-update-git-for-windows
+@@ -174,7 +174,22 @@ update_git_for_windows () {
+ 		;;
+ 	esac
+ 
+-	latest_tag_url=https://gitforwindows.org/latest-tag.txt
++	if test -f "$0.ini"
++	then
++		fork="$(git config -f "$0.ini" update.fromFork)"
++		test -n "$releases_url" || {
++			echo "Could not find update.fromFork in $0.ini" >&2
++			return 1
++		}
++		releases_url=https://api.github.com/repos/$fork/releases
++		latest_tag_url=$releases_url/latest
++		latest_eval='latest=${latest_tag#*\"tag_name\": \"}; latest=${latest%%\"*}'
++	else
++		releases_url=https://api.github.com/repos/git-for-windows/git/releases
++		latest_tag_url=https://gitforwindows.org/latest-tag.txt
++		latest_eval='latest=${latest_tag#v}'
++	fi
++
+ 	latest_tag=$(http_get $latest_tag_url) ||
+ 	case $?,"$proxy" in
+ 	7,)
+@@ -190,7 +205,7 @@ update_git_for_windows () {
+ 		;;
+ 	esac
+ 
+-	latest=${latest_tag#v}
++	eval "$latest_eval"
+ 	# Did we ask about this version already?
+ 	recently_seen="$(get_recently_seen)"
+ 	test -n "$quiet" && test "x$recently_seen" = "x$latest" && return
+@@ -215,7 +230,6 @@ update_git_for_windows () {
+ 	esac
+ 
+ 	echo "Update $latest is available" >&2
+-	releases_url=https://api.github.com/repos/git-for-windows/git/releases
+ 	releases=$(http_get $releases_url/latest) || return
+ 	download=$(echo "$releases" |
+ 		grep '"browser_download_url": "' |
+Great! Here are the steps to verify your custom domain for GitHub Pages:
+
+1. **Create a TXT Record**:
+   - Go to your DNS provider's management console.
+   - Add a new TXT record with the following details:
+     - **Hostname**: `_github-pages-challenge-Juma-creator.paywithpi.com`
+     - **Value**: `21d68e39a55bafa58483a364a5e21d`
+
+2. **Save the Record**:
+   - Save the TXT record in your DNS settings.
+
+3. **Wait for DNS Propagation**:
+   - DNS changes can take some time to propagate, usually up to 24 hours. 
+
+4. **Verify on GitHub**:
+   - Once the DNS changes have propagated, go to your GitHub repository.
+   - Navigate to **Settings** > **Pages**.
+   - Enter your custom domain and click **Save**. GitHub will check for the TXT record to verify your domain.
+
+If you encounter any issues or need further assistance, feel free to ask!
+185.199.108.153
+185.199.109.153
+185.199.110.153
+185.199.111.153
