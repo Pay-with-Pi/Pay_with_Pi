@@ -1,0 +1,10 @@
+saml:
+  idp:
+    entityId: "https://idp.example.com/metadata"
+    ssoUrl: "https://idp.example.com/sso"
+    certificate: "MIIC...AB"
+  sp:
+    entityId: "https://sp.example.com/metadata"
+    acsUrl: "https://sp.example.com/acs"
+    certificate: "MIIC...AB"
+
