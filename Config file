@@ -1,0 +1,48 @@
+{
+  "database": {
+    "host": "localhost",
+    "port": 27017,
+    "name": "mydatabase"
+  },
+  "server": {
+    "port": 3000
+  },
+  "apiKeys": {
+    "service1": "your-api-key-here",
+    "service2": "your-api-key-here"
+  }
+}
+
+database:
+  host: localhost
+  port: 27017
+  name: mydatabase
+
+server:
+  port: 3000
+
+apiKeys:
+  service1: your-api-key-here
+  service2: your-api-key-here
+
+DATABASE_HOST=localhost
+DATABASE_PORT=27017
+DATABASE_NAME=mydatabase
+SERVER_PORT=3000
+API_KEY_SERVICE1=your-api-key-here
+API_KEY_SERVICE2=your-api-key-here
+
+module.exports = {
+  database: {
+    host: 'localhost',
+    port: 27017,
+    name: 'mydatabase'
+  },
+  server: {
+    port: 3000
+  },
+  apiKeys: {
+    service1: 'your-api-key-here',
+    service2: 'your-api-key-here'
+  }
+};
